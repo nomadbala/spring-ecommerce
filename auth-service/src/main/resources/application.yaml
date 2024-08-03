@@ -1,0 +1,17 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: auth-service
+
+keycloak:
+  auth-server-url: http://keycloak:8080/auth
+  realm: ecommerce
+  resource: auth-service
+  public-client: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/

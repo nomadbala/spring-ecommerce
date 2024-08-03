@@ -1,0 +1,39 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth/**
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+            - Path=/products/**
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/orders/**
+        - id: inventory-service
+          uri: lb://inventory-service
+          predicates:
+            - Path=/inventory/**
+        - id: payment-service
+          uri: lb://payment-service
+          predicates:
+            - Path=/payments/**
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://keycloak:8080/auth/realms/ecommerce
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/
