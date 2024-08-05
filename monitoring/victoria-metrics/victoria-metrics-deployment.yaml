@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: victoria-metrics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: victoria-metrics
+  template:
+    metadata:
+      labels:
+        app: victoria-metrics
+    spec:
+      containers:
+        - name: victoria-metrics
+          image: victoriametrics/victoria-metrics:v1.64.0
+          args:
+            - "--storageDataPath=/victoria-metrics-data"
+            - "--httpListenAddr=:8428"
+          ports:
+            - containerPort: 8428
+          volumeMounts:
+            - name: storage
+              mountPath: /victoria-metrics-data
+      volumes:
+        - name: storage
+          emptyDir: {}
